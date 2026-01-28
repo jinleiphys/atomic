@@ -1,11 +1,35 @@
-# Welcome to your Jupyter Book
+# 源代码：原子物理的逆向工程
 
-This is a small sample book to give you a feel for how book content is
-structured.
-It shows off a few of the major file types, as well as some sample content.
-It does not go in-depth into any particular topic - check out [the Jupyter Book documentation](https://jupyterbook.org) for more information.
+**Source Code: Reverse Engineering the Atom**
 
-Check out the content pages bundled with this sample book to see more.
+---
+
+> 宇宙是一个巨大的"黑盒"，原子是它的基础逻辑单元。
+> 本书试图用两种智能——碳基直觉与硅基计算——对这个黑盒进行逆向工程。
+
+本书以杨福家《原子物理学》的严谨知识体系为骨架，通过**碳基直觉（人类物理学史）**与**硅基计算（信息与算法）**的双重视角进行重构。
+
+## 阅读指南
+
+本书每一节都包含两条平行叙事线：
+
+- **Carbon Story** — 物理学家如何凭借直觉、类比和思想实验，一步步逼近真相。这是通过考试所必需的严谨知识线。
+- **Silicon Perspective** — 如果用计算机科学的语言重新审视同一个物理定律，它看起来像什么？物理定律即"宇宙的压缩算法"。
+
+部分章节还包含：
+
+- **AI Workshop** — 动手编写代码，用蒙特卡洛模拟、符号回归、可视化等手段，让抽象公式变成可交互的直觉。
+
+## 目录总览
+
+| 模块 | 主题 | 核心隐喻 |
+|------|------|----------|
+| 前言 | 两种智能的对话 | 黑盒与逆向工程 |
+| 第一章 | 系统架构探测 | 系统辨识 / 稳定性分析 |
+| 第二章 | 信息的数字化 | 符号回归 / 模数转换 |
+| 第三章 | 逻辑内核重构 | 多重继承 / 概率密度 |
+| 第四章 | 终极算法 | 特征值问题 / 查询接口 |
+| 第五章 | 元数据与微扰 | 量子比特 / 微扰理论 |
 
 ```{tableofcontents}
 ```

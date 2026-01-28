@@ -1,7 +1,7 @@
 # Book settings
 # Learn more at https://jupyterbook.org/customize/config.html
 
-title: 原子物理
+title: 源代码：原子物理的逆向工程
 author: jinlei
 logo: logo.png
 

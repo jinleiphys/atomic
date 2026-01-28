@@ -1,9 +1,45 @@
-# Table of contents
-# Learn more at https://jupyterbook.org/customize/toc.html
-
 format: jb-book
 root: intro
-chapters:
-- file: markdown
-- file: notebooks
-- file: markdown-notebooks
+
+parts:
+  - caption: 前言
+    chapters:
+    - file: preface
+
+  - caption: 第一章 系统架构探测
+    chapters:
+    - file: ch01/intro
+      sections:
+      - file: ch01/rutherford-scattering
+      - file: ch01/classical-collapse
+
+  - caption: 第二章 信息的数字化
+    chapters:
+    - file: ch02/intro
+      sections:
+      - file: ch02/spectral-data
+      - file: ch02/bohr-model
+      - file: ch02/franck-hertz
+
+  - caption: 第三章 逻辑内核重构
+    chapters:
+    - file: ch03/intro
+      sections:
+      - file: ch03/wave-particle
+      - file: ch03/uncertainty
+      - file: ch03/wavefunction
+
+  - caption: 第四章 终极算法
+    chapters:
+    - file: ch04/intro
+      sections:
+      - file: ch04/schrodinger
+      - file: ch04/operators
+      - file: ch04/hydrogen
+
+  - caption: 第五章 元数据与微扰
+    chapters:
+    - file: ch05/intro
+      sections:
+      - file: ch05/spin
+      - file: ch05/fine-structure
