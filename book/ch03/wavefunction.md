@@ -1,3 +1,14 @@
+---
+jupytext:
+  text_representation:
+    extension: .md
+    format_name: myst
+kernelspec:
+  display_name: Python 3
+  language: python
+  name: python3
+---
+
 # 3.3 状态数据库——波函数的统计解释
 
 > **Algorithm Goal:** 理解波函数 $\psi$ 作为"信息载体"的角色——它不是物理实体，而是编码了粒子在空间中出现概率的完整数据库。
@@ -110,10 +121,10 @@ $\psi$ 就像一个数据库，算符就像 SQL 查询语句——你用不同�
 
 ## AI Workshop：可视化氢原子电子云
 
-```python
+```{code-cell} ipython3
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.special import sph_harm, factorial
+from scipy.special import sph_harm_y, factorial
 
 def hydrogen_radial(n, l, r):
     """氢原子径向波函数 R_nl(r)（简化版）"""
@@ -133,7 +144,7 @@ def prob_density_2d(n, l, m, N=500):
     Theta = np.arccos(Z / R)
 
     Rnl = hydrogen_radial(n, l, R)
-    Ylm = sph_harm(m, l, 0, Theta).real  # phi=0 截面
+    Ylm = sph_harm_y(l, m, Theta, 0).real  # phi=0 截面
     psi = Rnl * Ylm
     return X, Z, np.abs(psi)**2
 

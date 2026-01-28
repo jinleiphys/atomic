@@ -1,3 +1,14 @@
+---
+jupytext:
+  text_representation:
+    extension: .md
+    format_name: myst
+kernelspec:
+  display_name: Python 3
+  language: python
+  name: python3
+---
+
 # 5.1 隐藏的比特——电子自旋
 
 > **Algorithm Goal:** 理解自旋作为电子的内禀量子数，它如何为量子态增加一个二值自由度，以及它与经典旋转的根本区别。
@@ -95,7 +106,7 @@ $$
 
 测量之前，自旋"既是上又是下"（叠加态）。测量之后，坍缩到 $|↑⟩$ 或 $|↓⟩$ 之一，概率分别为 $|\alpha|^2$ 和 $|\beta|^2$。
 
-```python
+```{code-cell} ipython3
 import numpy as np
 
 # 自旋态表示

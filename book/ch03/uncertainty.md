@@ -1,3 +1,14 @@
+---
+jupytext:
+  text_representation:
+    extension: .md
+    format_name: myst
+kernelspec:
+  display_name: Python 3
+  language: python
+  name: python3
+---
+
 # 3.2 分辨率极限——不确定关系
 
 > **Algorithm Goal:** 理解位置和动量作为共轭变量，为什么无法同时具有任意高的精度——这不是技术限制，而是信息编码的根本极限。
@@ -95,7 +106,7 @@ assert delta_x * delta_p >= hbar / 2
 
 ## AI Workshop：可视化不确定关系
 
-```python
+```{code-cell} ipython3
 import numpy as np
 import matplotlib.pyplot as plt
 

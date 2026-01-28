@@ -1,3 +1,14 @@
+---
+jupytext:
+  text_representation:
+    extension: .md
+    format_name: myst
+kernelspec:
+  display_name: Python 3
+  language: python
+  name: python3
+---
+
 # 1.1 探测信号注入——卢瑟福散射
 
 > **Algorithm Goal:** 将 $\alpha$ 粒子作为探针输入原子系统，通过散射角度分布反推原子内部电荷拓扑。
@@ -67,7 +78,9 @@ $$
 
 下面的代码模拟 $\alpha$ 粒子在库仑势中的经典轨迹，生成散射角度分布。
 
-```python
+```{code-cell} ipython3
+:tags: [hide-input]
+
 import numpy as np
 import matplotlib.pyplot as plt
 

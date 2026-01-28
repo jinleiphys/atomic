@@ -1,3 +1,14 @@
+---
+jupytext:
+  text_representation:
+    extension: .md
+    format_name: myst
+kernelspec:
+  display_name: Python 3
+  language: python
+  name: python3
+---
+
 # 5.2 参数耦合与调试——精细结构与塞曼效应
 
 > **Algorithm Goal:** 理解自旋-轨道耦合如何修正能级结构，以及外部磁场如何导致能级的进一步分裂。
@@ -142,7 +153,7 @@ def perturbation_correction(psi_0, H_prime, order=1):
 
 ## AI Workshop：塞曼效应能级分裂
 
-```python
+```{code-cell} ipython3
 import numpy as np
 import matplotlib.pyplot as plt
 

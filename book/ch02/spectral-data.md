@@ -1,3 +1,14 @@
+---
+jupytext:
+  text_representation:
+    extension: .md
+    format_name: myst
+kernelspec:
+  display_name: Python 3
+  language: python
+  name: python3
+---
+
 # 2.1 数据挖掘与特征提取——光谱规律
 
 > **Algorithm Goal:** 对原子光谱数据进行符号回归，发现隐藏的数学结构。
@@ -61,7 +72,7 @@ $$
 
 ### 代码示例：用线性回归重新发现里德伯常数
 
-```python
+```{code-cell} ipython3
 import numpy as np
 from scipy import stats
 

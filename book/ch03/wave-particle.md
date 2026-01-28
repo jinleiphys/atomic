@@ -1,3 +1,14 @@
+---
+jupytext:
+  text_representation:
+    extension: .md
+    format_name: myst
+kernelspec:
+  display_name: Python 3
+  language: python
+  name: python3
+---
+
 # 3.1 对象的类继承——波粒二象性
 
 > **Algorithm Goal:** 理解微观粒子如何同时实现"粒子"和"波"两套接口，以及实验条件如何决定调用哪个接口。

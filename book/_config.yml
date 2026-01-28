@@ -5,10 +5,11 @@ title: 源代码：原子物理的逆向工程
 author: jinlei
 logo: logo.png
 
-# Force re-execution of notebooks on each build.
+# Execute notebooks on each build
 # See https://jupyterbook.org/content/execute.html
 execute:
   execute_notebooks: force
+  timeout: 120
 
 # Define the name of the latex output file for PDF builds
 latex:
@@ -30,3 +31,9 @@ repository:
 html:
   use_issues_button: true
   use_repository_button: true
+
+# Launch buttons for interactive execution
+launch_buttons:
+  thebe: true
+  notebook_interface: "classic"
+  binderhub_url: "https://mybinder.org"

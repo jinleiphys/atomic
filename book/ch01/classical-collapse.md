@@ -1,3 +1,14 @@
+---
+jupytext:
+  text_representation:
+    extension: .md
+    format_name: myst
+kernelspec:
+  display_name: Python 3
+  language: python
+  name: python3
+---
+
 # 1.2 经典系统的崩溃——行星模型的困难
 
 > **Algorithm Goal:** 对卢瑟福行星模型进行稳定性分析，证明在经典电磁学框架下该模型存在不可修复的致命 Bug。
@@ -89,7 +100,9 @@ Proposed Fix:
 
 ### 能量耗散的数值模拟
 
-```python
+```{code-cell} ipython3
+:tags: [hide-input]
+
 import numpy as np
 import matplotlib.pyplot as plt
 

@@ -1,3 +1,14 @@
+---
+jupytext:
+  text_representation:
+    extension: .md
+    format_name: myst
+kernelspec:
+  display_name: Python 3
+  language: python
+  name: python3
+---
+
 # 2.3 硬件级验证——弗兰克-赫兹实验
 
 > **Algorithm Goal:** 通过阈值测试，直接验证原子能级的离散性——证明原子的能量输入端口是阶梯状的而非线性的。
@@ -60,7 +71,7 @@
 
 ### 代码示例：模拟弗兰克-赫兹曲线
 
-```python
+```{code-cell} ipython3
 import numpy as np
 import matplotlib.pyplot as plt
 

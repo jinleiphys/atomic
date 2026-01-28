@@ -1,3 +1,14 @@
+---
+jupytext:
+  text_representation:
+    extension: .md
+    format_name: myst
+kernelspec:
+  display_name: Python 3
+  language: python
+  name: python3
+---
+
 # 4.2 数据提取工具——算符与平均值
 
 > **Algorithm Goal:** 理解物理可观测量如何通过算符从波函数中提取，掌握期望值的计算方法。

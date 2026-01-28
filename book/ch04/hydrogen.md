@@ -1,3 +1,14 @@
+---
+jupytext:
+  text_representation:
+    extension: .md
+    format_name: myst
+kernelspec:
+  display_name: Python 3
+  language: python
+  name: python3
+---
+
 # 4.3 3D 渲染解——氢原子波函数
 
 > **Algorithm Goal:** 求解氢原子的定态薛定谔方程，理解量子数 $(n, l, m)$ 如何定义波函数的几何拓扑。
@@ -112,11 +123,11 @@ f 轨道 (l=3): 更复杂    → 3 个角度节面
 
 ## AI Workshop：氢原子轨道 3D 可视化
 
-```python
+```{code-cell} ipython3
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm
-from scipy.special import sph_harm, assoc_laguerre, factorial
+from scipy.special import sph_harm_y, assoc_laguerre, factorial
 
 def hydrogen_wavefunction(n, l, m, r, theta, phi):
     """
@@ -131,7 +142,7 @@ def hydrogen_wavefunction(n, l, m, r, theta, phi):
     R = norm_r * np.exp(-rho/2) * rho**l * assoc_laguerre(rho, n-l-1, 2*l+1)
 
     # 角度部分 (球谐函数)
-    Y = sph_harm(m, l, phi, theta)
+    Y = sph_harm_y(l, m, theta, phi)
 
     return R * Y
 
