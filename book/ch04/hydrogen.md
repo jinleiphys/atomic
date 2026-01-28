@@ -9,6 +9,14 @@ kernelspec:
   name: python3
 ---
 
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+import matplotlib.pyplot as plt
+plt.rcParams['font.sans-serif'] = ['Heiti TC', 'Noto Sans CJK SC', 'SimHei', 'DejaVu Sans']
+plt.rcParams['axes.unicode_minus'] = False
+```
+
 # 4.3 3D 渲染解——氢原子波函数
 
 > **Algorithm Goal:** 求解氢原子的定态薛定谔方程，理解量子数 $(n, l, m)$ 如何定义波函数的几何拓扑。

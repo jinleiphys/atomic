@@ -9,6 +9,14 @@ kernelspec:
   name: python3
 ---
 
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+import matplotlib.pyplot as plt
+plt.rcParams['font.sans-serif'] = ['Heiti TC', 'Noto Sans CJK SC', 'SimHei', 'DejaVu Sans']
+plt.rcParams['axes.unicode_minus'] = False
+```
+
 # 5.2 参数耦合与调试——精细结构与塞曼效应
 
 > **Algorithm Goal:** 理解自旋-轨道耦合如何修正能级结构，以及外部磁场如何导致能级的进一步分裂。

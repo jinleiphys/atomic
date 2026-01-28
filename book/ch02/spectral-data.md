@@ -9,6 +9,14 @@ kernelspec:
   name: python3
 ---
 
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+import matplotlib.pyplot as plt
+plt.rcParams['font.sans-serif'] = ['Heiti TC', 'Noto Sans CJK SC', 'SimHei', 'DejaVu Sans']
+plt.rcParams['axes.unicode_minus'] = False
+```
+
 # 2.1 数据挖掘与特征提取——光谱规律
 
 > **Algorithm Goal:** 对原子光谱数据进行符号回归，发现隐藏的数学结构。

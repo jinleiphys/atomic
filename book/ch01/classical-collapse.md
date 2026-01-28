@@ -9,6 +9,14 @@ kernelspec:
   name: python3
 ---
 
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+import matplotlib.pyplot as plt
+plt.rcParams['font.sans-serif'] = ['Heiti TC', 'Noto Sans CJK SC', 'SimHei', 'DejaVu Sans']
+plt.rcParams['axes.unicode_minus'] = False
+```
+
 # 1.2 经典系统的崩溃——行星模型的困难
 
 > **Algorithm Goal:** 对卢瑟福行星模型进行稳定性分析，证明在经典电磁学框架下该模型存在不可修复的致命 Bug。

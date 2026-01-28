@@ -9,6 +9,14 @@ kernelspec:
   name: python3
 ---
 
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+import matplotlib.pyplot as plt
+plt.rcParams['font.sans-serif'] = ['Heiti TC', 'Noto Sans CJK SC', 'SimHei', 'DejaVu Sans']
+plt.rcParams['axes.unicode_minus'] = False
+```
+
 # 2.3 硬件级验证——弗兰克-赫兹实验
 
 > **Algorithm Goal:** 通过阈值测试，直接验证原子能级的离散性——证明原子的能量输入端口是阶梯状的而非线性的。

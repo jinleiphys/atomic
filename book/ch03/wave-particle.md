@@ -9,6 +9,14 @@ kernelspec:
   name: python3
 ---
 
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+import matplotlib.pyplot as plt
+plt.rcParams['font.sans-serif'] = ['Heiti TC', 'Noto Sans CJK SC', 'SimHei', 'DejaVu Sans']
+plt.rcParams['axes.unicode_minus'] = False
+```
+
 # 3.1 对象的类继承——波粒二象性
 
 > **Algorithm Goal:** 理解微观粒子如何同时实现"粒子"和"波"两套接口，以及实验条件如何决定调用哪个接口。

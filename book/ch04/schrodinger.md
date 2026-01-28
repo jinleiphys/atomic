@@ -9,6 +9,14 @@ kernelspec:
   name: python3
 ---
 
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+import matplotlib.pyplot as plt
+plt.rcParams['font.sans-serif'] = ['Heiti TC', 'Noto Sans CJK SC', 'SimHei', 'DejaVu Sans']
+plt.rcParams['axes.unicode_minus'] = False
+```
+
 # 4.1 状态演化引擎——薛定谔方程
 
 > **Algorithm Goal:** 理解薛定谔方程作为量子力学"运动方程"的角色，掌握定态薛定谔方程的特征值问题结构。

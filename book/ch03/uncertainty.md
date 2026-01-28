@@ -9,6 +9,14 @@ kernelspec:
   name: python3
 ---
 
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+import matplotlib.pyplot as plt
+plt.rcParams['font.sans-serif'] = ['Heiti TC', 'Noto Sans CJK SC', 'SimHei', 'DejaVu Sans']
+plt.rcParams['axes.unicode_minus'] = False
+```
+
 # 3.2 分辨率极限——不确定关系
 
 > **Algorithm Goal:** 理解位置和动量作为共轭变量，为什么无法同时具有任意高的精度——这不是技术限制，而是信息编码的根本极限。

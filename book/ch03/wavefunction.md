@@ -9,6 +9,14 @@ kernelspec:
   name: python3
 ---
 
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+import matplotlib.pyplot as plt
+plt.rcParams['font.sans-serif'] = ['Heiti TC', 'Noto Sans CJK SC', 'SimHei', 'DejaVu Sans']
+plt.rcParams['axes.unicode_minus'] = False
+```
+
 # 3.3 状态数据库——波函数的统计解释
 
 > **Algorithm Goal:** 理解波函数 $\psi$ 作为"信息载体"的角色——它不是物理实体，而是编码了粒子在空间中出现概率的完整数据库。

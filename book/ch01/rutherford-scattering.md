@@ -9,6 +9,14 @@ kernelspec:
   name: python3
 ---
 
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+import matplotlib.pyplot as plt
+plt.rcParams['font.sans-serif'] = ['Heiti TC', 'Noto Sans CJK SC', 'SimHei', 'DejaVu Sans']
+plt.rcParams['axes.unicode_minus'] = False
+```
+
 # 1.1 探测信号注入——卢瑟福散射
 
 > **Algorithm Goal:** 将 $\alpha$ 粒子作为探针输入原子系统，通过散射角度分布反推原子内部电荷拓扑。

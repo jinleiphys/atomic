@@ -9,6 +9,14 @@ kernelspec:
   name: python3
 ---
 
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+import matplotlib.pyplot as plt
+plt.rcParams['font.sans-serif'] = ['Heiti TC', 'Noto Sans CJK SC', 'SimHei', 'DejaVu Sans']
+plt.rcParams['axes.unicode_minus'] = False
+```
+
 # 2.2 强制量化补丁——玻尔模型
 
 > **Algorithm Goal:** 通过对经典行星模型施加角动量量子化约束，将连续轨道空间离散化，消除经典模型的能量泄露 Bug。
