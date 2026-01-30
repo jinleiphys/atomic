@@ -2,7 +2,8 @@ version: 1
 project:
   title: 源代码：原子物理的逆向工程
   authors:
-    - name: jinlei
+    - name: Jin Lei
+      url: https://jinlei.fewbody.com
   github: jinleiphys/atomic
   thebe:
     binder:
