@@ -17,7 +17,7 @@ plt.rcParams['font.sans-serif'] = ['Heiti TC', 'Noto Sans CJK SC', 'SimHei', 'De
 plt.rcParams['axes.unicode_minus'] = False
 ```
 
-# 5.2 参数耦合与调试——精细结构与塞曼效应
+# 5.2 参数耦合与调试
 
 > **Algorithm Goal:** 理解自旋-轨道耦合如何修正能级结构，以及外部磁场如何导致能级的进一步分裂。
 
@@ -75,7 +75,7 @@ $$
 
 ### 塞曼效应
 
-当原子置于外部磁场 $\mathbf{B}$ 中时，能级发生进一步分裂——**塞曼效应(Zeeman Effect)**。
+当原子置于外部磁场 $\mathbf{B}$ 中时，能级发生进一步分裂，**塞曼效应(Zeeman Effect)**。
 
 在外磁场中，总角动量 $\mathbf{J}$ 的 $z$ 分量 $m_j$ 对应不同的能量：
 
@@ -96,7 +96,7 @@ $$
 
 ---
 
-## Silicon Perspective：微扰理论——给系统打补丁
+## Silicon Perspective：微扰理论，给系统打补丁
 
 ### 主程序与补丁包
 

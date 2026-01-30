@@ -17,7 +17,7 @@ plt.rcParams['font.sans-serif'] = ['Heiti TC', 'Noto Sans CJK SC', 'SimHei', 'De
 plt.rcParams['axes.unicode_minus'] = False
 ```
 
-# 4.3 3D 渲染解——氢原子波函数
+# 4.3 3D 渲染解
 
 > **Algorithm Goal:** 求解氢原子的定态薛定谔方程，理解量子数 $(n, l, m)$ 如何定义波函数的几何拓扑。
 
@@ -47,8 +47,8 @@ $$
 \psi_{nlm}(r, \theta, \phi) = R_{nl}(r) \cdot Y_l^m(\theta, \phi)
 $$
 
-- $R_{nl}(r)$：径向波函数——决定电子离核的远近分布。
-- $Y_l^m(\theta, \phi)$：球谐函数——决定电子云的角度形状。
+- $R_{nl}(r)$：径向波函数，决定电子离核的远近分布。
+- $Y_l^m(\theta, \phi)$：球谐函数，决定电子云的角度形状。
 
 ### 三个量子数
 
