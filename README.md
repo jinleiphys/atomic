@@ -22,7 +22,7 @@ pip install -r requirements.txt
 ## 本地构建与预览
 
 ```bash
-# 激活虚拟环境（如果还没激活）
+# 激活虚拟环境(如果还没激活)
 source .venv/bin/activate
 
 # 构建 HTML
@@ -70,11 +70,11 @@ ghp-import -n -p -f book/_build/html
 
 ```
 atomic/
-├── .venv/                  # 虚拟环境（不提交到 git）
+├── .venv/                  # 虚拟环境(不提交到 git)
 ├── requirements.txt        # Python 依赖
 ├── README.md
 └── book/
-    ├── _config.yml         # 书籍配置（标题、作者等）
+    ├── _config.yml         # 书籍配置(标题、作者等)
     ├── _toc.yml            # 目录结构
     ├── intro.md            # 首页
     ├── markdown.md         # 示例章节
@@ -82,7 +82,7 @@ atomic/
     ├── markdown-notebooks.md
     ├── logo.png
     ├── references.bib      # 参考文献
-    └── _build/             # 构建产物（不提交到 git）
+    └── _build/             # 构建产物(不提交到 git)
 ```
 
 ## 常用内容语法
@@ -90,7 +90,7 @@ atomic/
 Jupyter Book 使用 [MyST Markdown](https://myst-parser.readthedocs.io/) 语法，在标准 Markdown 基础上支持：
 
 - 数学公式: `$E=mc^2$` 或 `$$\int_0^\infty f(x)dx$$`
-- 引用: `` {cite}`key` ``（配合 `references.bib`）
+- 引用: `` {cite}`key` ``(配合 `references.bib`)
 - 提示框: `` ```{note} `` / `` ```{warning} `` / `` ```{tip} ``
 - 图片: `` ```{figure} path/to/image.png ``
 - 交叉引用: `` {ref}`label` ``
