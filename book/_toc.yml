@@ -6,10 +6,11 @@ parts:
     chapters:
     - file: preface
 
-  - caption: 第一章 系统架构探测
+  - caption: 第一章 原子的核式结构
     chapters:
     - file: ch01/intro
       sections:
+      - file: ch01/electron-discovery
       - file: ch01/rutherford-scattering
       - file: ch01/classical-collapse
 
