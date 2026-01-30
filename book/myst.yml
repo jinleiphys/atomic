@@ -60,3 +60,4 @@ site:
     logo: logo.png
     folders: true
   template: book-theme
+  base_url: /atomic
