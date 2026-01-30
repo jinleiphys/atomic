@@ -23,7 +23,7 @@
 /Users/jinlei/anaconda3/envs/pinn/bin/ghp-import -n -p -f book/_build/html
 ```
 
-完整流程：
+**默认行为**：每次提交 book/ 相关改动后，都应执行构建并部署到 gh-pages：
 ```bash
 git add . && git commit -m "your message" && git push  # 推送源码到 main
 /Users/jinlei/anaconda3/envs/pinn/bin/jupyter-book build book/  # 构建
