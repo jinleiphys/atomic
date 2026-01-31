@@ -2,6 +2,7 @@
 .venv/
 
 # Jupyter Book build output
+_build/
 book/_build/
 
 # Python

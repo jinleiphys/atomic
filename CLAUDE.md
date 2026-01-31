@@ -17,38 +17,29 @@
 
 ## 构建与部署
 
-项目使用 **Jupyter Book 2.x (MyST)** 构建。
+项目使用 **Jupyter Book 2.x (MyST)** 构建，通过 **GitHub Actions 自动部署**。
 
-### 本地构建
+### 自动部署 (推荐)
+
+推送到 `main` 分支后，GitHub Actions 会自动构建并部署到 GitHub Pages。
+
+```bash
+git add . && git commit -m "your message" && git push origin main
+```
+
+工作流文件位于 `.github/workflows/deploy.yml`。
+
+### 本地预览 (可选)
+
+如需本地预览，可以构建但**不要提交 `_build` 目录**：
+
 ```bash
 cd /Users/jinlei/Desktop/code/atomic/book
 python -m jupyter_book build --site
+# 打开 _build/html/index.html 预览
 ```
 
-### 部署到 GitHub Pages
-
-**重要**：必须设置 `BASE_URL` 环境变量！
-
-```bash
-cd /Users/jinlei/Desktop/code/atomic/book
-
-# 构建（必须设置 BASE_URL）
-BASE_URL="/atomic" python -m jupyter_book build --html
-
-# 部署到 gh-pages 分支
-python -m ghp_import -n -p -f _build/html
-```
-
-### 完整工作流
-```bash
-# 1. 提交源码到 main
-git add . && git commit -m "your message" && git push origin main
-
-# 2. 构建并部署
-cd book
-BASE_URL="/atomic" python -m jupyter_book build --html
-python -m ghp_import -n -p -f _build/html
-```
+`_build/` 目录已在 `.gitignore` 中忽略。
 
 ## 分支说明
 

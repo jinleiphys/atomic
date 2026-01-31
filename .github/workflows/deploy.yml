@@ -1,0 +1,42 @@
+name: Deploy Jupyter Book
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install jupyter-book ghp-import
+
+      - name: Build Jupyter Book
+        working-directory: book
+        env:
+          BASE_URL: /atomic
+        run: |
+          python -m jupyter_book build --html
+
+      - name: Deploy to GitHub Pages
+        working-directory: book
+        run: |
+          python -m ghp_import -n -p -f _build/html
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
