@@ -129,7 +129,7 @@ $$
 
 ---
 
-## 习题
+## 思考题
 
 1. **[传统]** 验证 $[\hat{x}, \hat{p}] = i\hbar$。提示：计算 $\hat{x}\hat{p}\psi - \hat{p}\hat{x}\psi$ 对任意 $\psi(x)$。
 2. **[传统]** 对于一维无限深方势阱的基态 $\psi_1(x) = \sqrt{2/L}\sin(\pi x/L)$，计算 $\langle x \rangle$、$\langle x^2 \rangle$、$\langle p \rangle$ 和 $\langle p^2 \rangle$，并验证不确定关系 $\Delta x \cdot \Delta p \geq \hbar/2$。
