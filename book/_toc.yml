@@ -10,6 +10,7 @@ parts:
     chapters:
     - file: ch01/intro
       sections:
+      - file: ch01/electron-discovery
       - file: ch01/rutherford-scattering
       - file: ch01/classical-collapse
 
