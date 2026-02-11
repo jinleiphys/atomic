@@ -60,4 +60,7 @@ site:
   options:
     logo: logo.png
     folders: true
+  nav:
+    - title: English
+      url: https://jinlei.fewbody.com/atomic/en/
   template: book-theme

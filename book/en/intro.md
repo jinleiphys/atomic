@@ -1,5 +1,3 @@
-[中文版](/atomic/)
-
 # Source Code: Reverse Engineering the Atom
 
 ---
@@ -17,30 +15,17 @@ This process goes by another name you are surely familiar with: **machine learni
 
 Training a neural network today is, at its core, the very same activity. You prepare a large set of input-output data pairs, design a model architecture, and let the algorithm adjust the model's parameters so that its output matches the real data as closely as possible. After training, you use the model to predict new data it has never seen; if the predictions are off, you adjust the architecture or the data and retrain. Physicists call this "discovering the laws of nature," and machine learning engineers call it "fitting data," but strip away the terminological shell and they are the same cognitive activity: **constructing a model that generalizes from finite observations**.
 
-```text
-      ┌─────────────────────────────────────────────────────────┐
-      │     Scientific Discovery vs Machine Learning:           │
-      │              An Isomorphic Process                      │
-      ├─────────────────────────────────────────────────────────┤
-      │                                                         │
-      │   [ Experimental Data / Training Data ]                 │
-      │              │                                          │
-      │              ▼                                          │
-      │   ┌─────────────────────┐                               │
-      │   │  Propose Model /    │                               │
-      │   │  Design Architecture│                               │
-      │   └─────────────────────┘                               │
-      │              │                                          │
-      │              ▼                                          │
-      │   ┌─────────────────────┐                               │
-      │   │  Validate Predictions│◄───── If failed, revise     │
-      │   │  / Test Generalization│       model and repeat      │
-      │   └─────────────────────┘                               │
-      │              │                                          │
-      │              ▼                                          │
-      │   [ Physical Laws / Trained Model ]                     │
-      │                                                         │
-      └─────────────────────────────────────────────────────────┘
+```{mermaid}
+flowchart TD
+    A["Experimental Data / Training Data"] --> B["Propose Model / Design Architecture"]
+    B --> C["Validate Predictions / Test Generalization"]
+    C -->|"If failed, revise model"| B
+    C --> D["Physical Laws / Trained Model"]
+
+    style A fill:none,stroke:#333
+    style B fill:none,stroke:#333
+    style C fill:none,stroke:#333
+    style D fill:none,stroke:#333
 ```
 
 Differences certainly exist. The models physicists seek must be sufficiently concise, expressible in a handful of equations, capable of revealing the underlying causal mechanism. Neural networks, by contrast, are often enormous black boxes with billions of parameters: you know they work, but you can hardly articulate why. Yet this difference is one of degree, not of kind. Newton's law of universal gravitation is an extraordinarily concise model: a single formula, $F = Gm_1m_2/r^2$, fits all the data from a falling apple to the orbits of planets. The Schrodinger equation is a more complex model, but it too was "learned" from experimental data, only the learner was the human brain rather than gradient descent on a GPU.

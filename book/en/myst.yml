@@ -60,4 +60,7 @@ site:
   options:
     logo: ../logo.png
     folders: true
+  nav:
+    - title: 中文
+      url: https://jinlei.fewbody.com/atomic/
   template: book-theme
