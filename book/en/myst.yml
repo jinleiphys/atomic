@@ -1,0 +1,63 @@
+version: 1
+project:
+  title: "Source Code: Reverse Engineering the Atom"
+  authors:
+    - name: Jin Lei
+      url: https://jinlei.fewbody.com
+  github: jinleiphys/atomic
+  thebe:
+    binder:
+      repo: jinleiphys/atomic
+      provider: github
+      url: https://mybinder.org
+      ref: main
+  bibliography:
+    - ../references.bib
+  exports:
+    - format: pdf
+      template: plain_latex_book
+      output: exports/book.pdf
+  toc:
+    - file: intro.md
+    - title: Preface
+      children:
+        - file: preface.md
+    - title: "Chapter 1: Nuclear Structure of the Atom"
+      children:
+        - file: ch01/intro.md
+          children:
+            - file: ch01/electron-discovery.md
+            - file: ch01/rutherford-scattering.md
+            - file: ch01/classical-collapse.md
+    - title: "Chapter 2: Digitization of Information"
+      children:
+        - file: ch02/intro.md
+          children:
+            - file: ch02/spectral-data.md
+            - file: ch02/bohr-model.md
+            - file: ch02/franck-hertz.md
+    - title: "Chapter 3: Logic Core Reconstruction"
+      children:
+        - file: ch03/intro.md
+          children:
+            - file: ch03/wave-particle.md
+            - file: ch03/uncertainty.md
+            - file: ch03/wavefunction.md
+    - title: "Chapter 4: The Ultimate Algorithm"
+      children:
+        - file: ch04/intro.md
+          children:
+            - file: ch04/schrodinger.md
+            - file: ch04/operators.md
+            - file: ch04/hydrogen.md
+    - title: "Chapter 5: Metadata and Perturbations"
+      children:
+        - file: ch05/intro.md
+          children:
+            - file: ch05/spin.md
+            - file: ch05/fine-structure.md
+site:
+  options:
+    logo: ../logo.png
+    folders: true
+  template: book-theme

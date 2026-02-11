@@ -27,12 +27,24 @@ jobs:
         run: |
           pip install jupyter-book ghp-import
 
-      - name: Build Jupyter Book
+      - name: Build Chinese version
         working-directory: book
         env:
           BASE_URL: /atomic
         run: |
           python -m jupyter_book build --html
+
+      - name: Build English version
+        working-directory: book/en
+        env:
+          BASE_URL: /atomic/en
+        run: |
+          python -m jupyter_book build --html
+
+      - name: Merge builds
+        run: |
+          mkdir -p book/_build/html/en
+          cp -r book/en/_build/html/* book/_build/html/en/
 
       - name: Deploy to GitHub Pages
         working-directory: book

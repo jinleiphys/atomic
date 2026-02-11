@@ -48,4 +48,16 @@ python -m jupyter_book build --site
 
 ## 网站地址
 
-https://jinleiphys.github.io/atomic/
+- 中文版：https://jinleiphys.github.io/atomic/
+- 英文版：https://jinleiphys.github.io/atomic/en/
+
+## 双语工作流
+
+项目同时维护中文版 (`book/`) 和英文版 (`book/en/`) 两个版本。
+
+- **中文源文件**：`book/` 目录下的 `.md` 文件
+- **英文源文件**：`book/en/` 目录下的 `.md` 文件（镜像结构）
+- **共享资源**：图片文件在 `book/ch01/` 等目录中，英文版通过相对路径 `../../ch01/` 引用
+- **共享配置**：`references.bib` 和 `logo.png` 由英文版通过 `../` 相对路径引用
+
+修改内容时需同步更新两个版本。英文版代码中的 matplotlib 标签使用英文，字体配置使用 `DejaVu Sans`。

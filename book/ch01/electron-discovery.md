@@ -158,6 +158,10 @@ $$
 import numpy as np
 import matplotlib.pyplot as plt
 
+# 设置中文字体
+plt.rcParams['font.sans-serif'] = ['Heiti TC', 'Noto Sans CJK SC', 'SimHei', 'DejaVu Sans']
+plt.rcParams['axes.unicode_minus'] = False
+
 # 模拟密立根油滴实验数据
 # 假设真实的基本电荷为 e0
 e0 = 1.602e-19  # C
@@ -176,7 +180,7 @@ fig, axes = plt.subplots(1, 2, figsize=(12, 5))
 # 左图：电荷值分布
 axes[0].scatter(range(n_droplets), charges * 1e19, alpha=0.7)
 axes[0].set_xlabel('油滴编号')
-axes[0].set_ylabel('电荷 (×10⁻¹⁹ C)')
+axes[0].set_ylabel('电荷 (1e-19 C)')
 axes[0].set_title('各油滴的电荷测量值')
 for n in range(1, 11):
     axes[0].axhline(y=n * e0 * 1e19, color='r', linestyle='--', alpha=0.3)
@@ -191,8 +195,8 @@ for i in range(len(sorted_charges) - 1):
         charge_diffs.append(diff)
 
 axes[1].hist(np.array(charge_diffs) * 1e19, bins=20, edgecolor='black', alpha=0.7)
-axes[1].axvline(x=e0 * 1e19, color='r', linestyle='--', label=f'真实值 e = {e0*1e19:.3f}×10⁻¹⁹ C')
-axes[1].set_xlabel('相邻电荷差值 (×10⁻¹⁹ C)')
+axes[1].axvline(x=e0 * 1e19, color='r', linestyle='--', label=f'真实值 e = {e0*1e19:.3f}e-19 C')
+axes[1].set_xlabel('相邻电荷差值 (1e-19 C)')
 axes[1].set_ylabel('频数')
 axes[1].set_title('电荷差值分布（用于确定基本电荷）')
 axes[1].legend()

@@ -36,10 +36,30 @@ if [ -f "$TEMPLATE_ZIP" ] && [ ! -d "$LOCAL_TEMPLATE" ]; then
     echo "模板已解压到 $LOCAL_TEMPLATE"
 fi
 
-# 临时修改 myst.yml 使用本地模板
+# 临时修改 myst.yml: 使用本地模板 + 本地 Jupyter server
 MYST_YML="$SOURCE_DIR/myst.yml"
 cp "$MYST_YML" "$MYST_YML.bak"
-sed -i '' 's/template: book-theme/template: _templates\/book-theme-main/' "$MYST_YML"
+python3 << 'PYTHON'
+import yaml
+
+with open("/Users/jinlei/Desktop/code/atomic/book/myst.yml", "r") as f:
+    config = yaml.safe_load(f)
+
+# 使用本地模板
+config["site"]["template"] = "_templates/book-theme-main"
+
+# 使用本地 Jupyter server (替换 thebe/binder)
+del config["project"]["thebe"]
+config["project"]["jupyter"] = {
+    "server": {
+        "url": "http://localhost:8888/",
+        "token": "local"
+    }
+}
+
+with open("/Users/jinlei/Desktop/code/atomic/book/myst.yml", "w") as f:
+    yaml.dump(config, f, allow_unicode=True, default_flow_style=False, sort_keys=False)
+PYTHON
 
 # 构建静态 HTML
 echo ""
@@ -57,8 +77,9 @@ rm -rf "$OUTPUT_DIR"
 cp -r "$SOURCE_DIR/_build/html" "$OUTPUT_DIR"
 rm -rf "$SOURCE_DIR/_build"
 
-# 后台启动 Jupyter server (用于 Thebe 交互式代码)
-python -m notebook --NotebookApp.token='' --NotebookApp.allow_origin='*' --no-browser --port=8888 &
+# 后台启动 Jupyter server (用于交互式代码)
+export MPLCONFIGDIR="$SOURCE_DIR"
+jupyter lab --NotebookApp.token='local' --NotebookApp.allow_origin='*' --no-browser --port=8888 &
 JUPYTER_PID=$!
 
 # 清理函数：退出时关闭 Jupyter server

@@ -4,6 +4,7 @@
 # Jupyter Book build output
 _build/
 book/_build/
+book/en/_build/
 book/_templates/
 
 # Python
