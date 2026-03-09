@@ -17,7 +17,7 @@ plt.rcParams['font.sans-serif'] = ['DejaVu Sans']
 plt.rcParams['axes.unicode_minus'] = False
 ```
 
-# 2.3 The Franck-Hertz Experiment
+# 2.4 The Franck-Hertz Experiment
 
 ## Knocking on the Atom's Door with Electrons
 

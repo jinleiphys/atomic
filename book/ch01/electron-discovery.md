@@ -150,85 +150,106 @@ $$
 
 密立根实验的巧妙之处则在于利用油滴匀速运动的条件来间接测量难以直接测量的量（油滴质量）。这种"用容易测量的量来间接测量难以测量的量"的方法，是实验物理学的核心技能之一。
 
-让我们用一段代码来模拟密立根油滴实验的数据分析过程。假设我们测量了多个油滴的电荷值，如何从这些数据中提取出基本电荷 $e$ 的值？
+让我们用贝叶斯推断的方法来分析密立根油滴实验的数据。密立根面对的核心问题可以精确地表述为：给定一组带有测量噪声的电荷观测值 $\{q_i\}$，如何推断基本电荷 $e$ 的值？贝叶斯方法为这个问题提供了一个优雅的框架。
+
+我们的物理模型是 $q_i = n_i \cdot e + \epsilon_i$，其中 $n_i$ 是未知的正整数(油滴携带的电子数)，$\epsilon_i$ 是测量误差。贝叶斯推断的关键在于，对于每个候选的 $e$ 值，我们不需要知道每个油滴到底带了几个电子，而是对所有可能的 $n_i$ 值求和(边缘化)。单个油滴的似然函数为
+
+$$
+P(q_i \mid e) = \sum_{n=1}^{n_{\max}} P(q_i \mid n, e) \, P(n) = \sum_{n=1}^{n_{\max}} \frac{1}{\sqrt{2\pi}\sigma} \exp\!\left(-\frac{(q_i - ne)^2}{2\sigma^2}\right) P(n)
+$$
+
+其中 $\sigma$ 是测量误差的标准差。假设各油滴独立，总似然函数为所有油滴似然的乘积，后验分布正比于似然乘以先验：$P(e \mid \{q_i\}) \propto P(e) \prod_i P(q_i \mid e)$。
 
 ```{code-cell} ipython3
 :tags: [hide-input]
 
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.signal import find_peaks
 
-# 设置中文字体
 plt.rcParams['font.sans-serif'] = ['Heiti TC', 'Noto Sans CJK SC', 'SimHei', 'DejaVu Sans']
 plt.rcParams['axes.unicode_minus'] = False
 
-# 模拟密立根油滴实验数据
-# 假设真实的基本电荷为 e0
-e0 = 1.602e-19  # C
-
-# 生成若干个油滴，每个油滴带有 1~10 个电子的电荷
+# === 模拟实验数据 ===
+e_true = 1.602e-19  # 真实基本电荷 (C)
 np.random.seed(42)
 n_droplets = 50
-n_electrons = np.random.randint(1, 11, n_droplets)  # 电子数
-# 加入 2% 的测量误差
-measurement_error = 0.02
-charges = n_electrons * e0 * (1 + measurement_error * np.random.randn(n_droplets))
+n_electrons = np.random.randint(1, 11, n_droplets)
+sigma_rel = 0.02  # 2% 相对测量误差
+charges = n_electrons * e_true * (1 + sigma_rel * np.random.randn(n_droplets))
+sigma = sigma_rel * np.mean(charges)  # 绝对测量误差
 
-# 绘制测量结果
-fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+# === 贝叶斯分析 ===
+e_grid = np.linspace(0.5e-19, 3.2e-19, 5000)
+n_max = 15
 
-# 左图：电荷值分布
-axes[0].scatter(range(n_droplets), charges * 1e19, alpha=0.7)
-axes[0].set_xlabel('油滴编号')
-axes[0].set_ylabel('电荷 (1e-19 C)')
-axes[0].set_title('各油滴的电荷测量值')
+# 计算对数后验 (对 n 求和的边缘似然)
+log_posterior = np.zeros_like(e_grid)
+for q in charges:
+    ns = np.arange(1, n_max + 1)
+    # 对每个 e 值，计算所有可能 n 的似然之和
+    # log_lik_matrix[i, j] = log P(q | n_j, e_i)
+    residuals = q - np.outer(e_grid, ns)  # shape: (len(e_grid), n_max)
+    log_liks = -0.5 * (residuals / sigma) ** 2
+    # log-sum-exp 技巧保证数值稳定
+    max_log_lik = np.max(log_liks, axis=1)
+    log_marginal = max_log_lik + np.log(np.sum(np.exp(log_liks - max_log_lik[:, None]), axis=1))
+    log_posterior += log_marginal
+
+# 归一化后验
+log_posterior -= np.max(log_posterior)
+posterior = np.exp(log_posterior)
+posterior /= np.trapz(posterior, e_grid)
+
+# 找到后验峰值 (MAP 估计)
+i_map = np.argmax(posterior)
+e_map = e_grid[i_map]
+
+# 计算 95% 可信区间
+cumulative = np.cumsum(posterior) * (e_grid[1] - e_grid[0])
+i_low = np.searchsorted(cumulative, 0.025)
+i_high = np.searchsorted(cumulative, 0.975)
+
+# === 可视化 ===
+fig, axes = plt.subplots(1, 3, figsize=(15, 4.5))
+
+# 左图：原始测量数据
+axes[0].scatter(range(n_droplets), charges * 1e19, alpha=0.7, s=25)
 for n in range(1, 11):
-    axes[0].axhline(y=n * e0 * 1e19, color='r', linestyle='--', alpha=0.3)
+    axes[0].axhline(y=n * e_true * 1e19, color='r', linestyle='--', alpha=0.2, linewidth=0.8)
+axes[0].set_xlabel('油滴编号')
+axes[0].set_ylabel('电荷 ($10^{-19}$ C)')
+axes[0].set_title('测量数据')
 
-# 右图：电荷值的最大公约数分析
-# 计算所有电荷对之间的差值，寻找最小间隔
-charge_diffs = []
-sorted_charges = np.sort(charges)
-for i in range(len(sorted_charges) - 1):
-    diff = sorted_charges[i+1] - sorted_charges[i]
-    if diff > 0.5e-19:  # 忽略太小的差值（同一能级的测量误差）
-        charge_diffs.append(diff)
+# 中图：后验分布 (全景)
+axes[1].plot(e_grid * 1e19, posterior * 1e19, 'b-', linewidth=1.5)
+axes[1].axvline(x=e_true * 1e19, color='r', linestyle='--', alpha=0.8, label=f'真实值 {e_true*1e19:.3f}')
+axes[1].set_xlabel('$e$ ($10^{-19}$ C)')
+axes[1].set_ylabel('后验概率密度')
+axes[1].set_title('$P(e \\mid \\mathrm{data})$ 全景')
+axes[1].legend(fontsize=9)
 
-axes[1].hist(np.array(charge_diffs) * 1e19, bins=20, edgecolor='black', alpha=0.7)
-axes[1].axvline(x=e0 * 1e19, color='r', linestyle='--', label=f'真实值 e = {e0*1e19:.3f}e-19 C')
-axes[1].set_xlabel('相邻电荷差值 (1e-19 C)')
-axes[1].set_ylabel('频数')
-axes[1].set_title('电荷差值分布（用于确定基本电荷）')
-axes[1].legend()
+# 右图：后验分布 (聚焦主峰)
+mask = (e_grid >= 1.45e-19) & (e_grid <= 1.75e-19)
+axes[2].plot(e_grid[mask] * 1e19, posterior[mask] * 1e19, 'b-', linewidth=1.5)
+axes[2].axvline(x=e_true * 1e19, color='r', linestyle='--', alpha=0.8, label=f'真实值 {e_true*1e19:.3f}')
+axes[2].axvline(x=e_map * 1e19, color='g', linestyle='-', alpha=0.8, label=f'MAP 估计 {e_map*1e19:.3f}')
+axes[2].axvspan(e_grid[i_low] * 1e19, e_grid[i_high] * 1e19, alpha=0.15, color='blue', label='95% 可信区间')
+axes[2].set_xlabel('$e$ ($10^{-19}$ C)')
+axes[2].set_ylabel('后验概率密度')
+axes[2].set_title('$P(e \\mid \\mathrm{data})$ 主峰')
+axes[2].legend(fontsize=9)
 
 plt.tight_layout()
 plt.show()
 
-# 估计基本电荷：使用最小二乘法拟合
-# 假设 q_i = n_i * e，用整数规划找最佳的 e
-def estimate_e(charges, e_range):
-    """通过最小二乘法估计基本电荷"""
-    best_e = e_range[0]
-    best_residual = np.inf
-
-    for e_test in e_range:
-        # 对每个电荷值，找最接近的整数倍
-        n_est = np.round(charges / e_test)
-        residual = np.sum((charges - n_est * e_test)**2)
-        if residual < best_residual:
-            best_residual = residual
-            best_e = e_test
-
-    return best_e
-
-e_range = np.linspace(1.5e-19, 1.7e-19, 1000)
-e_estimated = estimate_e(charges, e_range)
-print(f"估计的基本电荷: e = {e_estimated:.4e} C")
-print(f"真实值:        e = {e0:.4e} C")
-print(f"相对误差:      {abs(e_estimated - e0) / e0 * 100:.2f}%")
+print(f"MAP 估计:    e = {e_map:.4e} C")
+print(f"95% 可信区间: [{e_grid[i_low]:.4e}, {e_grid[i_high]:.4e}] C")
+print(f"真实值:      e = {e_true:.4e} C")
+print(f"相对误差:    {abs(e_map - e_true) / e_true * 100:.2f}%")
 ```
 
-这段代码模拟了密立根的数据分析过程：从一组带有测量误差的电荷数据中，提取出基本电荷的值。关键的观察是，所有测量到的电荷值都应该是基本电荷的整数倍，因此电荷差值的分布应该在基本电荷附近有一个峰值。
+贝叶斯分析揭示了一个有趣的现象：后验分布 $P(e \mid \mathrm{data})$ 呈现多峰结构。主峰出现在真实值 $e \approx 1.602 \times 10^{-19}$ C 附近，而次级峰则出现在 $e/2$、$e/3$ 等分数位置。这些次级峰对应的是"也许基本电荷更小，而每个油滴实际上带的电子更多"这种替代假说。然而，随着数据量的增加，主峰会越来越尖锐，而次级峰相对于主峰会迅速变得可以忽略。这正是密立根反复测量数千个油滴的核心原因：更多的数据让贝叶斯推断越来越确定地指向真正的基本电荷值。从信息论的角度看，每一个新的油滴测量都在向我们提供关于 $e$ 的信息，后验分布随之不断收窄。
 
 ## 本节小结
 

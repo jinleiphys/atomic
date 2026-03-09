@@ -6,6 +6,7 @@ _build/
 book/_build/
 book/en/_build/
 book/_templates/
+.myst-templates/
 
 # Python
 __pycache__/

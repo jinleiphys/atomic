@@ -150,85 +150,105 @@ The ingenuity of Thomson's experiment lies in his design of a condition where el
 
 The ingenuity of Millikan's experiment lies in using the terminal velocity condition of the oil drop to indirectly measure a quantity that is difficult to measure directly (the mass of the oil drop). This method of "using easily measurable quantities to indirectly measure difficult-to-measure quantities" is one of the core skills of experimental physics.
 
-Let us use a piece of code to simulate the data analysis process of Millikan's oil drop experiment. Suppose we have measured the charge values of multiple oil drops; how can we extract the value of the elementary charge $e$ from this data?
+Let us use Bayesian inference to analyze Millikan's oil drop experiment data. The core problem Millikan faced can be stated precisely: given a set of noisy charge measurements $\{q_i\}$, how do we infer the value of the elementary charge $e$? The Bayesian framework provides an elegant solution to this problem.
+
+Our physical model is $q_i = n_i \cdot e + \epsilon_i$, where $n_i$ is an unknown positive integer (the number of electrons on the drop) and $\epsilon_i$ is measurement noise. The key insight of the Bayesian approach is that for each candidate value of $e$, we do not need to know how many electrons each drop carries; instead, we sum (marginalize) over all possible values of $n_i$. The likelihood for a single drop is
+
+$$
+P(q_i \mid e) = \sum_{n=1}^{n_{\max}} P(q_i \mid n, e) \, P(n) = \sum_{n=1}^{n_{\max}} \frac{1}{\sqrt{2\pi}\sigma} \exp\!\left(-\frac{(q_i - ne)^2}{2\sigma^2}\right) P(n)
+$$
+
+where $\sigma$ is the standard deviation of the measurement error. Assuming independent drops, the total likelihood is the product of individual likelihoods, and the posterior is proportional to the likelihood times the prior: $P(e \mid \{q_i\}) \propto P(e) \prod_i P(q_i \mid e)$.
 
 ```{code-cell} ipython3
 :tags: [hide-input]
 
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.signal import find_peaks
 
-# Set font
 plt.rcParams['font.sans-serif'] = ['DejaVu Sans']
 plt.rcParams['axes.unicode_minus'] = False
 
-# Simulate Millikan oil drop experiment data
-# Assume the true elementary charge is e0
-e0 = 1.602e-19  # C
-
-# Generate several oil drops, each carrying the charge of 1 to 10 electrons
+# === Simulate experimental data ===
+e_true = 1.602e-19  # True elementary charge (C)
 np.random.seed(42)
 n_droplets = 50
-n_electrons = np.random.randint(1, 11, n_droplets)  # Number of electrons
-# Add 2% measurement error
-measurement_error = 0.02
-charges = n_electrons * e0 * (1 + measurement_error * np.random.randn(n_droplets))
+n_electrons = np.random.randint(1, 11, n_droplets)
+sigma_rel = 0.02  # 2% relative measurement error
+charges = n_electrons * e_true * (1 + sigma_rel * np.random.randn(n_droplets))
+sigma = sigma_rel * np.mean(charges)  # Absolute measurement error
 
-# Plot the results
-fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+# === Bayesian analysis ===
+e_grid = np.linspace(0.5e-19, 3.2e-19, 5000)
+n_max = 15
 
-# Left panel: charge value distribution
-axes[0].scatter(range(n_droplets), charges * 1e19, alpha=0.7)
-axes[0].set_xlabel('Drop number')
-axes[0].set_ylabel('Charge (1e-19 C)')
-axes[0].set_title('Measured charge of each oil drop')
+# Compute log-posterior (marginal likelihood summed over n)
+log_posterior = np.zeros_like(e_grid)
+for q in charges:
+    ns = np.arange(1, n_max + 1)
+    # For each e value, compute the likelihood summed over all possible n
+    residuals = q - np.outer(e_grid, ns)  # shape: (len(e_grid), n_max)
+    log_liks = -0.5 * (residuals / sigma) ** 2
+    # Log-sum-exp trick for numerical stability
+    max_log_lik = np.max(log_liks, axis=1)
+    log_marginal = max_log_lik + np.log(np.sum(np.exp(log_liks - max_log_lik[:, None]), axis=1))
+    log_posterior += log_marginal
+
+# Normalize posterior
+log_posterior -= np.max(log_posterior)
+posterior = np.exp(log_posterior)
+posterior /= np.trapz(posterior, e_grid)
+
+# Find posterior peak (MAP estimate)
+i_map = np.argmax(posterior)
+e_map = e_grid[i_map]
+
+# Compute 95% credible interval
+cumulative = np.cumsum(posterior) * (e_grid[1] - e_grid[0])
+i_low = np.searchsorted(cumulative, 0.025)
+i_high = np.searchsorted(cumulative, 0.975)
+
+# === Visualization ===
+fig, axes = plt.subplots(1, 3, figsize=(15, 4.5))
+
+# Left panel: raw measurement data
+axes[0].scatter(range(n_droplets), charges * 1e19, alpha=0.7, s=25)
 for n in range(1, 11):
-    axes[0].axhline(y=n * e0 * 1e19, color='r', linestyle='--', alpha=0.3)
+    axes[0].axhline(y=n * e_true * 1e19, color='r', linestyle='--', alpha=0.2, linewidth=0.8)
+axes[0].set_xlabel('Drop number')
+axes[0].set_ylabel('Charge ($10^{-19}$ C)')
+axes[0].set_title('Measurement data')
 
-# Right panel: greatest common divisor analysis of charge values
-# Compute differences between all sorted charge pairs, seeking the minimum spacing
-charge_diffs = []
-sorted_charges = np.sort(charges)
-for i in range(len(sorted_charges) - 1):
-    diff = sorted_charges[i+1] - sorted_charges[i]
-    if diff > 0.5e-19:  # Ignore too-small differences (measurement error within the same level)
-        charge_diffs.append(diff)
+# Middle panel: posterior distribution (full view)
+axes[1].plot(e_grid * 1e19, posterior * 1e19, 'b-', linewidth=1.5)
+axes[1].axvline(x=e_true * 1e19, color='r', linestyle='--', alpha=0.8, label=f'True value {e_true*1e19:.3f}')
+axes[1].set_xlabel('$e$ ($10^{-19}$ C)')
+axes[1].set_ylabel('Posterior density')
+axes[1].set_title('$P(e \\mid \\mathrm{data})$ full view')
+axes[1].legend(fontsize=9)
 
-axes[1].hist(np.array(charge_diffs) * 1e19, bins=20, edgecolor='black', alpha=0.7)
-axes[1].axvline(x=e0 * 1e19, color='r', linestyle='--', label=f'True value e = {e0*1e19:.3f}e-19 C')
-axes[1].set_xlabel('Adjacent charge difference (1e-19 C)')
-axes[1].set_ylabel('Count')
-axes[1].set_title('Charge difference distribution (for determining elementary charge)')
-axes[1].legend()
+# Right panel: posterior distribution (zoomed on main peak)
+mask = (e_grid >= 1.45e-19) & (e_grid <= 1.75e-19)
+axes[2].plot(e_grid[mask] * 1e19, posterior[mask] * 1e19, 'b-', linewidth=1.5)
+axes[2].axvline(x=e_true * 1e19, color='r', linestyle='--', alpha=0.8, label=f'True value {e_true*1e19:.3f}')
+axes[2].axvline(x=e_map * 1e19, color='g', linestyle='-', alpha=0.8, label=f'MAP estimate {e_map*1e19:.3f}')
+axes[2].axvspan(e_grid[i_low] * 1e19, e_grid[i_high] * 1e19, alpha=0.15, color='blue', label='95% credible interval')
+axes[2].set_xlabel('$e$ ($10^{-19}$ C)')
+axes[2].set_ylabel('Posterior density')
+axes[2].set_title('$P(e \\mid \\mathrm{data})$ main peak')
+axes[2].legend(fontsize=9)
 
 plt.tight_layout()
 plt.show()
 
-# Estimate elementary charge: using least squares fitting
-# Assume q_i = n_i * e, find the best e by integer programming
-def estimate_e(charges, e_range):
-    """Estimate the elementary charge via least squares"""
-    best_e = e_range[0]
-    best_residual = np.inf
-
-    for e_test in e_range:
-        # For each charge value, find the nearest integer multiple
-        n_est = np.round(charges / e_test)
-        residual = np.sum((charges - n_est * e_test)**2)
-        if residual < best_residual:
-            best_residual = residual
-            best_e = e_test
-
-    return best_e
-
-e_range = np.linspace(1.5e-19, 1.7e-19, 1000)
-e_estimated = estimate_e(charges, e_range)
-print(f"Estimated elementary charge: e = {e_estimated:.4e} C")
-print(f"True value:                 e = {e0:.4e} C")
-print(f"Relative error:             {abs(e_estimated - e0) / e0 * 100:.2f}%")
+print(f"MAP estimate:          e = {e_map:.4e} C")
+print(f"95% credible interval: [{e_grid[i_low]:.4e}, {e_grid[i_high]:.4e}] C")
+print(f"True value:            e = {e_true:.4e} C")
+print(f"Relative error:        {abs(e_map - e_true) / e_true * 100:.2f}%")
 ```
 
-This code simulates Millikan's data analysis process: extracting the value of the elementary charge from a set of charge data with measurement errors. The key observation is that all measured charge values should be integer multiples of the elementary charge, so the distribution of charge differences should exhibit a peak near the elementary charge.
+The Bayesian analysis reveals an interesting phenomenon: the posterior distribution $P(e \mid \mathrm{data})$ exhibits a multi-modal structure. The dominant peak appears near the true value $e \approx 1.602 \times 10^{-19}$ C, while secondary peaks appear at fractional positions such as $e/2$, $e/3$, and so on. These secondary peaks correspond to alternative hypotheses of the form "perhaps the elementary charge is smaller, and each drop actually carries more electrons." However, as the amount of data increases, the main peak becomes increasingly sharp while the secondary peaks become negligible relative to the main peak. This is precisely the core reason Millikan repeatedly measured thousands of oil drops: more data allows Bayesian inference to point with ever-increasing certainty toward the true elementary charge. From an information-theoretic perspective, each new oil drop measurement provides information about $e$, causing the posterior distribution to narrow progressively.
 
 ## Section Summary
 

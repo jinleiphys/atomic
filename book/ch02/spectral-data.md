@@ -17,7 +17,7 @@ plt.rcParams['font.sans-serif'] = ['Heiti TC', 'Noto Sans CJK SC', 'SimHei', 'De
 plt.rcParams['axes.unicode_minus'] = False
 ```
 
-# 2.1 光谱数据与经验公式
+# 2.2 光谱数据与经验公式
 
 ## 破译原子的状态码
 

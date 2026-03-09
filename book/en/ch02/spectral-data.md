@@ -17,7 +17,7 @@ plt.rcParams['font.sans-serif'] = ['DejaVu Sans']
 plt.rcParams['axes.unicode_minus'] = False
 ```
 
-# 2.1 Spectral Data and Empirical Formulas
+# 2.2 Spectral Data and Empirical Formulas
 
 ## Decoding the Atom's Status Codes
 
