@@ -31,8 +31,10 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install jupyter-book ghp-import
-          python -c "import matplotlib; import shutil; shutil.rmtree(matplotlib.get_cachedir(), ignore_errors=True)"
+          pip install jupyter-book ghp-import matplotlib
+
+      - name: Clear matplotlib cache
+        run: python -c "import matplotlib; import shutil; shutil.rmtree(matplotlib.get_cachedir(), ignore_errors=True)"
 
       - name: Build Chinese version
         working-directory: book
