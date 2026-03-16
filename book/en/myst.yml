@@ -34,6 +34,7 @@ project:
         - file: ch02/intro.md
           children:
             - file: ch02/kirchhoff-blackbody.md
+            - file: ch02/photoelectric-effect.md
             - file: ch02/spectral-data.md
             - file: ch02/bohr-model.md
             - file: ch02/franck-hertz.md

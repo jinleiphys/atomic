@@ -17,7 +17,7 @@ plt.rcParams['font.sans-serif'] = ['Heiti TC', 'Noto Sans CJK SC', 'SimHei', 'De
 plt.rcParams['axes.unicode_minus'] = False
 ```
 
-# 2.4 弗兰克-赫兹实验
+# 2.5 弗兰克-赫兹实验
 
 ## 用电子敲门
 

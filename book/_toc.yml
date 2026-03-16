@@ -18,6 +18,8 @@ parts:
     chapters:
     - file: ch02/intro
       sections:
+      - file: ch02/kirchhoff-blackbody
+      - file: ch02/photoelectric-effect
       - file: ch02/spectral-data
       - file: ch02/bohr-model
       - file: ch02/franck-hertz
