@@ -1,11 +1,13 @@
-# Project Guidelines for Claude
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## 项目概述
 
-这是一本原子物理学教材，采用双线叙事风格：
+这是一本原子物理学教材（源代码：原子物理的逆向工程），采用双线叙事风格：
 - **物理叙事 (Carbon Story)**：追溯概念如何演化、图景如何更替
 - **硅基视角 (Silicon Perspective)**：用计算机科学的类比和数值方法重新诠释物理概念
-- **AI Workshop**：可运行的 Python 代码
+- **AI Workshop**：可运行的 Python 代码（NumPy、Matplotlib、SciPy）
 
 ## 写作风格
 
@@ -27,24 +29,27 @@
 git add . && git commit -m "your message" && git push origin main
 ```
 
-工作流文件位于 `.github/workflows/deploy.yml`。
+工作流文件：`.github/workflows/deploy.yml`。CI 分别构建中英文版本，然后合并到 `book/_build/html/`（英文版置于 `en/` 子目录），再通过 `ghp-import` 部署到 `gh-pages` 分支。
 
 ### 本地预览 (可选)
 
-如需本地预览，可以构建但**不要提交 `_build` 目录**：
-
 ```bash
-cd /Users/jinlei/Desktop/code/atomic/book
-python -m jupyter_book build --site
+cd book && python -m jupyter_book build --html
 # 打开 _build/html/index.html 预览
 ```
 
-`_build/` 目录已在 `.gitignore` 中忽略。
+`_build/` 目录已在 `.gitignore` 中忽略，**不要提交**。
+
+### 双配置系统
+
+项目存在两套配置文件：
+- **`myst.yml`**（中文 `book/myst.yml`，英文 `book/en/myst.yml`）：现代 MyST 格式，包含目录结构（`toc`）、站点选项、导航栏。**新增章节必须同时更新 `myst.yml` 中的 `toc` 和 `_toc.yml`**，否则会出现章节在网站目录中缺失的情况。
+- **`_config.yml` + `_toc.yml`**：Jupyter Book 传统格式，仍被构建系统使用。
 
 ## 分支说明
 
 - **main**：源文件，包含 `book/` 目录下的 Markdown 和配置
-- **gh-pages**：构建后的静态 HTML 文件
+- **gh-pages**：构建后的静态 HTML（由 CI 自动生成，不要手动修改）
 
 ## 网站地址
 
@@ -69,3 +74,25 @@ python -m jupyter_book build --site
 3. **公式与代码一致**：LaTeX 公式在两个版本中完全相同。Python 代码逻辑相同，仅文本标签（xlabel、ylabel、title、print 输出、注释）翻译为对应语言。
 4. **图表引用一致**：同一张图在两个版本中出现在相同的上下文位置。英文版图片 `:name:` 标签加 `-en` 后缀以避免冲突。
 5. **英文版字体**：`remove-cell` 代码块中的字体配置使用 `['DejaVu Sans']` 替代 CJK 字体。matplotlib 标签使用英文。
+
+### Notebook 代码块格式
+
+每个含代码的 `.md` 文件开头必须有字体配置的 `remove-cell`：
+
+中文版：
+```python
+plt.rcParams['font.sans-serif'] = ['Heiti TC', 'Noto Sans CJK SC', 'SimHei', 'DejaVu Sans']
+```
+
+英文版：
+```python
+plt.rcParams['font.sans-serif'] = ['DejaVu Sans']
+```
+
+### 新增章节 checklist
+
+1. 在 `book/ch0X/` 和 `book/en/ch0X/` 下分别创建中英文 `.md` 文件
+2. 更新 `book/myst.yml` 的 `toc` 部分
+3. 更新 `book/_toc.yml`
+4. 更新 `book/en/myst.yml` 的 `toc` 部分
+5. 确保中英文内容结构完全对齐
